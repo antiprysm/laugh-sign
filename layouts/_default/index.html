@@ -1,0 +1,124 @@
+
+{{ define "main" }}
+<div class="page-background">
+    <!-- Overlay Container -->
+    <div class="overlay-container">
+        <div class="page-background">
+            <div class="container text-center py-5">
+                <!-- Image Container -->
+                <div class="image-container pb-2">
+                    <!-- Big Image 1 (always visible) -->
+                    <img id="bigImage1" src="/img/laugh-off.png" alt="Big Image 1" class="img-fluid pb-2">
+                    <!-- Big Image 2 (will fade in and out) -->
+                    <img id="bigImage2" src="/img/laugh-on.png" alt="Big Image 2" class="img-fluid image-transition pb-2">
+                </div>
+    
+                <!-- Change Image and Play Audio Button -->
+                <button id="playButton" class="btn btn-danger btn-lg arcade-button mx-auto d-block">
+                </button>
+    
+                <!-- Audio Element -->
+                <audio id="audioPlayer" src="/audio/audience-laughs-short-smartsound-fx-2-2-00-05.mp3"></audio>
+            </div>
+        </div>
+    
+        <!-- Inline JavaScript -->
+        <script>
+            document.getElementById('playButton').addEventListener('click', function () {
+        // Get the second image and audio player elements
+        const secondImage = document.getElementById('bigImage2');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        // Array of audio sources
+        const audioSources = [
+            '/audio/audience-laughing-applauding-smartsound-fx-1-00-08.mp3',
+            '/audio/audience-laughs-short-smartsound-fx-2-2-00-05.mp3',
+            '/audio/audience-laughter-small-smartsound-fx-1-00-05.mp3'
+        ];
+
+        // Select a random audio file from the array
+        const randomIndex = Math.floor(Math.random() * audioSources.length);
+        const selectedAudio = audioSources[randomIndex];
+
+        // Set the selected audio source and play the audio
+        audioPlayer.src = selectedAudio;
+        audioPlayer.play();
+
+        // Fade in the second image
+        secondImage.style.opacity = 1;
+
+        // When the audio ends, fade out the second image
+        audioPlayer.onended = function () {
+            secondImage.style.opacity = 0;
+        };
+            });
+        </script>
+</div>
+
+<!-- Inline CSS -->
+<style>
+    /* Background Styling */
+    .page-background {
+        background: url('/img/bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        position: relative; /* Required for absolute positioning of child elements */
+    }
+
+    /* Overlay Container Styling */
+    .overlay-container {
+        position: absolute; /* Position the container absolutely relative to the parent */
+        top: 0; /* Place it at the top of the parent container */
+        left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start; /* Align content to the top */
+        padding-top: 20px; /* Adjust spacing from the top */
+    }
+
+    .arcade-button {
+        width: 100px; /* Width of the button */
+        height: 100px; /* Height of the button */
+        border-radius: 50%; /* Make it circular */
+        background-color: tomato; /* Red color */
+        border: 2px solid transparent; /* Create space for the metallic circle */
+        background-clip: padding-box; /* Ensures the circle doesn't overlap the button */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px; /* Font size for text or icon */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+        cursor: pointer;
+        position: relative; /* For positioning the metallic circle */
+    }
+
+    /* Metallic Circle Effect */
+    .arcade-button:before {
+        content: '';
+        position: absolute;
+        top: -10px; 
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #b0b0b0, #f0f0f0, #b0b0b0); /* Simulate metallic gradient */
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 10px rgba(0, 0, 0, 0.5); /* Light reflection */
+        z-index: -1; /* Put it behind the button */
+    }
+
+    .arcade-button:hover {
+        background-color: #b94833; /* Darker red on hover */
+    }
+</style>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('playButton').addEventListener('click', function () {
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.play();
+    });
+    
+</script>
+{{ end }}
