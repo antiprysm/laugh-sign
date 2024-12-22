@@ -1,6 +1,6 @@
 baseURL = "https://laughsign.com"
 languageCode = 'en-us'
-
+publishDir = "public"
 [params]
     title = "Laugh Sign" 
     description = "The replication of a live studio audience's responses"
