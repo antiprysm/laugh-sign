@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.140.0"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+	<meta name="generator" content="Hugo 0.140.0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laugh Sign</title>
 
     <meta name="message" content="To you, dear sister, for every cheesy joke, and for filling my life with laughter and warmth. This ones for you. ❤️">
 
-    <link rel="canonical" href="http://localhost:1313/">
+    <link rel="canonical" href="https://laughsign.com/">
     
         <link rel="icon" type="image/x-icon" href="/favicon.ico">
     
@@ -65,7 +65,17 @@
     
                 
                 <button id="playButton" class="btn btn-danger btn-lg arcade-button mx-auto d-block">
+                    Laugh
                 </button>
+
+                
+                <footer class="footer" style="color: #fff" >
+                    <div class="footer-content">
+                        <p>Laughs: <span id="laughCount">0</span></p>
+                    </div>
+                </footer>
+
+
     
                 
                 <audio id="audioPlayer" src="/audio/audience-laughs-short-smartsound-fx-2-2-00-05.mp3"></audio>
@@ -104,7 +114,30 @@
             secondImage.style.opacity = 0;
         };
             });
-        </script>
+
+        document.getElementById('playButton').addEventListener('click', function () {
+            
+            fetch('/increment-laugh-count', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                document.getElementById('laughCount').textContent = data.count;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        
+        window.onload = function() {
+            fetch('/get-laugh-count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('laughCount').textContent = data.count;
+            })
+            .catch(error => console.error('Error:', error));
+        };
+    </script>
 </div>
 
 
@@ -159,7 +192,39 @@
     .arcade-button:hover {
         background-color: #c70000;  
     }
+     
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #222;  
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        z-index: 10;  
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        padding-top: 10px;
+    }
+
+    .laugh-counter {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+     
+    .laugh-counter:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
 </style>
+
 
 
 </html>

@@ -15,7 +15,17 @@
     
                 <!-- Change Image and Play Audio Button -->
                 <button id="playButton" class="btn btn-danger btn-lg arcade-button mx-auto d-block">
+                    Laugh
                 </button>
+
+                <!-- Footer to display the laugh count -->
+                <footer class="footer" style="color: #fff" >
+                    <div class="footer-content">
+                        <p>Laughs: <span id="laughCount">0</span></p>
+                    </div>
+                </footer>
+
+
     
                 <!-- Audio Element -->
                 <audio id="audioPlayer" src="/audio/audience-laughs-short-smartsound-fx-2-2-00-05.mp3"></audio>
@@ -54,7 +64,30 @@
             secondImage.style.opacity = 0;
         };
             });
-        </script>
+
+        document.getElementById('playButton').addEventListener('click', function () {
+            // Send request to increment the laugh count
+            fetch('/increment-laugh-count', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update the laugh count displayed in the footer
+                document.getElementById('laughCount').textContent = data.count;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Fetch and display the current laugh count on page load
+        window.onload = function() {
+            fetch('/get-laugh-count')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('laughCount').textContent = data.count;
+            })
+            .catch(error => console.error('Error:', error));
+        };
+    </script>
 </div>
 
 <!-- Inline CSS -->
@@ -109,6 +142,37 @@
     }
     .arcade-button:hover {
         background-color: #c70000; /* Darker red on hover */
+    }
+    /* Footer styles */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #222; /* Slightly dark blue */
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+        z-index: 10; /* Ensure it's above other content */
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: middle;
+        padding-top: 10px;
+    }
+
+    .laugh-counter {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Optionally, add hover effect for the counter */
+    .laugh-counter:hover {
+        cursor: pointer;
+        text-decoration: underline;
     }
 </style>
 

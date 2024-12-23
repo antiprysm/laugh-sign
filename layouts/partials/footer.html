@@ -1,0 +1,29 @@
+<!-- Footer to display the laugh count -->
+<footer class="text-center mt-5" >
+    <p>Laugh Count: <span id="laughCount">0</span></p>
+</footer>
+
+<script>
+    document.getElementById('playButton').addEventListener('click', function () {
+        // Send request to increment the laugh count
+        fetch('/increment-laugh-count', {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update the laugh count displayed in the footer
+            document.getElementById('laughCount').textContent = data.count;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    // Fetch and display the current laugh count on page load
+    window.onload = function() {
+        fetch('/get-laugh-count')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('laughCount').textContent = data.count;
+        })
+        .catch(error => console.error('Error:', error));
+    };
+</script>
