@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Site.Params.title }}</title>
 
-    <meta name="message" content="{{ .Site.Params.message }}">
+    <meta name="message" content="{{ .Site.Params.message | safeHTML }}">
 
     <link rel="canonical" href="{{ .Permalink }}">
     {{ if .Site.Params.favicon }}
