@@ -19,7 +19,8 @@ app.get('/get-laugh-count', async (req, res) => {
   try {
     const result = await pool.query('SELECT count FROM laugh_counter WHERE id = 1;');
     const count = result.rows[0]?.count || 0;
-    res.json({ count });
+    const reset = 0
+    res.json({ reset });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching laugh count.');
