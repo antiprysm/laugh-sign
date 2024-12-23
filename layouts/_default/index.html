@@ -42,7 +42,9 @@
 
         // Set the selected audio source and play the audio
         audioPlayer.src = selectedAudio;
-        audioPlayer.play();
+        setTimeout(function() {
+            audioPlayer.play();
+        }, 1000);
 
         // Fade in the second image
         secondImage.style.opacity = 1;
@@ -63,6 +65,7 @@
         background-size: cover;
         min-height: 100vh;
         position: relative; /* Required for absolute positioning of child elements */
+        z-index: 0
     }
 
     /* Overlay Container Styling */
@@ -92,6 +95,7 @@
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Shadow for depth */
         cursor: pointer;
         position: relative; /* For positioning the metallic circle */
+        z-index:0
     }
 
     /* Metallic Circle Effect */
@@ -105,20 +109,11 @@
         border-radius: 50%;
         background: linear-gradient(45deg, #b0b0b0, #f0f0f0, #b0b0b0); /* Simulate metallic gradient */
         box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 10px rgba(0, 0, 0, 0.5); /* Light reflection */
-        z-index: -1; /* Put it behind the button */
+        z-index: 3; /* Put it behind the button */
     }
 
     .arcade-button:hover {
         background-color: #b94833; /* Darker red on hover */
     }
 </style>
-
-<!-- JavaScript -->
-<script>
-    document.getElementById('playButton').addEventListener('click', function () {
-        const audioPlayer = document.getElementById('audioPlayer');
-        audioPlayer.play();
-    });
-    
-</script>
 {{ end }}
