@@ -2,6 +2,23 @@ const express = require('express');
 const { Pool } = require('pg');
 const app = express();
 const port = 3000;
+const fs = require('fs');
+const resetConfig = JSON.parse(fs.readFileSync('./server.json', 'utf8'));
+
+// Check if we need to reset the laugh count
+if (resetConfig.reset_laugh_count) {
+  pool.query('UPDATE laugh_counter SET count = 0 WHERE id = 1;', (err, result) => {
+    if (err) {
+      console.error('Error resetting laugh count:', err);
+    } else {
+      console.log('Laugh count reset successfully!');
+    }
+  });
+
+  // Reset the flag in the server.json after reset to avoid continuous resets
+  resetConfig.reset_laugh_count = false;
+  fs.writeFileSync('./server.json', JSON.stringify(resetConfig, null, 2), 'utf8');
+}
 
 // Set up PostgreSQL connection
 const pool = new Pool({
@@ -13,6 +30,7 @@ const pool = new Pool({
 pool.query(
   `CREATE TABLE IF NOT EXISTS laugh_counter (id SERIAL PRIMARY KEY, count INTEGER DEFAULT 0);`
 );
+
 
 // Get the current laugh count
 app.get('/get-laugh-count', async (req, res) => {
@@ -50,3 +68,4 @@ app.use(express.static('public'));
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
