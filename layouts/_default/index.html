@@ -63,9 +63,6 @@
         audioPlayer.onended = function () {
             secondImage.style.opacity = 0;
         };
-            });
-
-        document.getElementById('playButton').addEventListener('click', function () {
             // Send request to increment the laugh count
             fetch('/increment-laugh-count', {
                 method: 'POST',
